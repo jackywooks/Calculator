@@ -1,5 +1,6 @@
 let firstNumber = null;
 let secondNumber = null;
+let result = 0;
 let operator = "";
 let inputArray = [];
 let numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -60,26 +61,29 @@ function setOperator(currentOperator) {
   if (currentOperator == "AC") {
     firstNumber = null;
     inputArray = [];
-    times = 0;
     displayContent.textContent = 0;
   } else if (currentOperator == "=") {
     result = operate(firstNumber, secondNumber, operator);
     displayContent.textContent = result;
+    firstNumber = result;
   } else if (operators.includes(currentOperator)) {
     if (firstNumber === null) {
       firstNumber = parseFloat(inputArray.join(""));
-    } else if (secondNumber === null){
-        operator = currentOperator;
+      operator = currentOperator;
+    } else {
       secondNumber = parseFloat(inputArray.join(""));
-      firstNumber = operate(firstNumber, secondNumber, operator);
-      displayContent.textContent = firstNumber;
-    }else{
-        secondNumber = parseFloat(inputArray.join(""));
-        firstNumber = operate(firstNumber, secondNumber, operator);
-        operator = currentOperator;
-        displayContent.textContent = firstNumber;
-  
+      console.log(secondNumber);
+      result = operate(firstNumber, secondNumber, operator);
+      displayContent.textContent = result;
+      firstNumber = result;
+      operator = currentOperator;
     }
+    inputArray = [];
   }
-  inputArray = [];
 }
+
+//You should round answers with long decimals so that they don’t overflow the screen.
+// handle multiple input of operator, number must follow by input, and input must follow by number > disable? > no, change the operator only if second pressed
+//disable the decimal button if there’s already one in the display)
+//backspace
+//keyboard support
