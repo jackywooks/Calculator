@@ -8,13 +8,6 @@ let operators = ["+", "-", "*", "x", "/", "÷"];
 const displayContent = document.querySelector(".display p");
 displayContent.textContent = 0;
 
-let isEmpty = (array) => {
-  for (value in array) {
-    return false;
-  }
-  return true;
-};
-
 let add = (num1, num2) => num1 + num2;
 let subtract = (num1, num2) => num1 - num2;
 let multiply = (num1, num2) => num1 * num2;
@@ -61,10 +54,10 @@ function setOperator(currentOperator) {
   if (currentOperator == "AC") {
     firstNumber = null;
     inputArray = [];
-    displayContent.textContent = 0;
+    displayResult(0);
   } else if (currentOperator == "=") {
     result = operate(firstNumber, secondNumber, operator);
-    displayContent.textContent = result;
+    displayResult(result);
     firstNumber = result;
   } else if (operators.includes(currentOperator)) {
     if (firstNumber === null) {
@@ -74,12 +67,16 @@ function setOperator(currentOperator) {
       secondNumber = parseFloat(inputArray.join(""));
       console.log(secondNumber);
       result = operate(firstNumber, secondNumber, operator);
-      displayContent.textContent = result;
+      displayResult(result);
       firstNumber = result;
       operator = currentOperator;
-    }
+    
     inputArray = [];
   }
+}
+
+function displayResult(number){
+    displayContent.textContent = number.toFixed(4);
 }
 
 //You should round answers with long decimals so that they don’t overflow the screen.
