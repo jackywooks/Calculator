@@ -16,9 +16,10 @@ export function setNumber(currentNumber) {
 export function removeLastDigit() {
   //the backspace will not do anything if the input of second number is not input yet
   if (isEmpty(currentInput)) {
-    return;
+    return 0;
   }
   currentInput.pop();
+  return 1;
 }
 
 export function resetUserInput(){

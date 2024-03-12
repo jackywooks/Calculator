@@ -20,8 +20,10 @@ const backspaceButton = document.querySelector("#backspace");
 equalButton.addEventListener("click", equal);
 clearButton.addEventListener("click", clear);
 backspaceButton.addEventListener("click", () => {
-  UserInput.removeLastDigit();
-  Display.displayCalculationResult(UserInput.getCurrentInput().join(""));
+  //display userinput only if the digit is removed successfully
+  if (UserInput.removeLastDigit()) {
+    Display.displayCalculationResult(UserInput.getCurrentInput().join(""));
+  }
 });
 decimalButton.addEventListener("click", () => {
   UserInput.setNumber(decimalButton.innerText);
@@ -39,7 +41,6 @@ operatorButtons.forEach((button) =>
 
 resetCalculationResult();
 //Keyboard Support
-
 
 //Button Function
 //EqualButton
