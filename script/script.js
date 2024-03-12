@@ -2,6 +2,7 @@ let firstNumber = null;
 let secondNumber = null;
 let result = 0;
 let operator = "";
+let operators = ["+", "-", "*", "/", "x", "÷"];
 let inputArray = [];
 const numButtons = document.querySelectorAll(".number");
 const operatorButtons = document.querySelectorAll(".operator");
@@ -14,8 +15,10 @@ const operatorContent = document.querySelector(".displayOperator");
 
 equalButton.addEventListener("click", evaluate);
 clearButton.addEventListener("click", clear);
-backspaceButton.addEventListener("click",removeLastDigit)
-decimalButton.addEventListener("click", () => setNumber(decimalButton.innerText));
+backspaceButton.addEventListener("click", removeLastDigit);
+decimalButton.addEventListener("click", () =>
+  setNumber(decimalButton.innerText)
+);
 numButtons.forEach((button) =>
   button.addEventListener("click", () => setNumber(button.innerText))
 );
@@ -37,7 +40,7 @@ function setNumber(currentNumber) {
   displayResult(inputArray.join(""));
 }
 
-function removeLastDigit(){
+function removeLastDigit() {
   inputArray.pop();
   displayResult(inputArray.join(""));
 }
@@ -67,14 +70,28 @@ function setOperator(currentOperator) {
     firstNumber = parseFloat(operationContent.textContent);
     operator = currentOperator;
     displayOperator(operator);
-  } else {
+  } else if (operators.includes(currentOperator)) {
+    //if the input Array is empty, i.e. second number not input, user can change the operator
+    if (isEmpty(inputArray)) {
+      operator = currentOperator;
+      displayOperator(operator);
+      return;
+    }
     secondNumber = parseFloat(inputArray.join(""));
     result = operate(firstNumber, secondNumber, operator);
     displayResult(roundNumber(result));
+    firstNumber = result;
     operator = currentOperator;
     displayOperator(operator);
   }
   inputArray = [];
+}
+
+function isEmpty(obj) {
+  for (let item in obj) {
+    return false;
+  }
+  return true;
 }
 
 function displayOperator(operator) {
@@ -86,33 +103,9 @@ function displayResult(number) {
 }
 
 //round answers with long decimals so that they don’t overflow the screen
-function roundNumber(number){
-  return number = Math.round(number * 1000) / 1000;
+function roundNumber(number) {
+  return (number = Math.round(number * 1000) / 1000);
 }
-
-// function setOperator(currentOperator) {
-//   if (currentOperator == "AC") {
-//
-//   } else if (currentOperator == "=") {
-//     result = operate(firstNumber, secondNumber, operator);
-//     displayResult(result);
-//     firstNumber = result;
-//   } else if (operators.includes(currentOperator)) {
-//     if (firstNumber === null) {
-//       firstNumber = parseFloat(inputArray.join(""));
-//       operator = currentOperator;
-//     } else {
-//       secondNumber = parseFloat(inputArray.join(""));
-//       console.log(secondNumber);
-//       result = operate(firstNumber, secondNumber, operator);
-//       displayResult(result);
-//       firstNumber = result;
-//       operator = currentOperator;
-
-//     inputArray = [];
-//   }
-// }
-// }
 
 let add = (num1, num2) => num1 + num2;
 let subtract = (num1, num2) => num1 - num2;
