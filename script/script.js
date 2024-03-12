@@ -29,9 +29,14 @@ operatorButtons.forEach((button) =>
 resetResult();
 
 function evaluate() {
+  //the function will not do anything if the input of second number is not input yet
+  if (isEmpty(inputArray)) {
+    return;
+  }
   secondNumber = parseFloat(inputArray.join(""));
   result = operate(firstNumber, secondNumber, operator);
   displayResult(roundNumber(result));
+  inputArray = [];
   resetOperator();
 }
 
@@ -41,6 +46,10 @@ function setNumber(currentNumber) {
 }
 
 function removeLastDigit() {
+  //the function will not do anything if the input of second number is not input yet
+  if (isEmpty(inputArray)) {
+    return;
+  }
   inputArray.pop();
   displayResult(inputArray.join(""));
 }
@@ -104,7 +113,10 @@ function displayResult(number) {
 
 //round answers with long decimals so that they don’t overflow the screen
 function roundNumber(number) {
-  return (number = Math.round(number * 1000) / 1000);
+  if (!isNaN(number)) {
+    return (number = Math.round(number * 1000) / 1000);
+  }
+  return number;
 }
 
 let add = (num1, num2) => num1 + num2;
@@ -130,7 +142,6 @@ let operate = (num1, num2, operator) => {
   }
 };
 
-// handle multiple input of operator, number must follow by input, and input must follow by number > disable? > no, change the operator only if second pressed
 //disable the decimal button if there’s already one in the display)
 //backspace
 //keyboard support
