@@ -70,7 +70,7 @@ function setOperator(currentOperator) {
   } else {
     secondNumber = parseFloat(inputArray.join(""));
     result = operate(firstNumber, secondNumber, operator);
-    displayResult(result);
+    displayResult(roundNumber(result));
     operator = currentOperator;
     displayOperator(operator);
   }
