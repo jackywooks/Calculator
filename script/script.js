@@ -3,10 +3,116 @@ let secondNumber = null;
 let result = 0;
 let operator = "";
 let inputArray = [];
-let numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-let operators = ["+", "-", "*", "x", "/", "÷"];
-const displayContent = document.querySelector(".display p");
-displayContent.textContent = 0;
+const numButtons = document.querySelectorAll(".number");
+const operatorButtons = document.querySelectorAll(".operator");
+const equalButton = document.querySelector("#equal");
+const clearButton = document.querySelector("#clear");
+const decimalButton = document.querySelector("#demical");
+const backspaceButton = document.querySelector("#backspace");
+const operationContent = document.querySelector(".result");
+const operatorContent = document.querySelector(".displayOperator");
+
+equalButton.addEventListener("click", evaluate);
+clearButton.addEventListener("click", clear);
+backspaceButton.addEventListener("click",removeLastDigit)
+decimalButton.addEventListener("click", addDecimal);
+numButtons.forEach((button) =>
+  button.addEventListener("click", () => setNumber(button.innerText))
+);
+operatorButtons.forEach((button) =>
+  button.addEventListener("click", () => setOperator(button.innerText))
+);
+
+resetResult();
+
+function evaluate() {
+  secondNumber = parseFloat(inputArray.join(""));
+  result = operate(firstNumber, secondNumber, operator);
+  displayResult(result);
+  resetOperator();
+}
+
+
+function addDecimal() {}
+
+function setNumber(currentNumber) {
+  inputArray.push(currentNumber);
+  displayResult(inputArray.join(""));
+}
+
+function removeLastDigit(){
+  inputArray.pop();
+  displayResult(inputArray.join(""));
+}
+
+function clear() {
+  firstNumber = null;
+  secondNumber = null;
+  resetResult();
+  resetOperator();
+  inputArray = [];
+}
+
+function resetResult() {
+  result = 0;
+  displayResult(result);
+}
+
+function resetOperator() {
+  operator = "";
+  displayOperator(operator);
+}
+
+function setOperator(currentOperator) {
+  //if there is no operator in place
+  //handle cases of initial input and input after user press equal
+  if (operatorContent.textContent === "") {
+    firstNumber = parseFloat(operationContent.textContent);
+    operator = currentOperator;
+    displayOperator(operator);
+  } else {
+    secondNumber = parseFloat(inputArray.join(""));
+    result = operate(firstNumber, secondNumber, operator);
+    displayResult(result);
+    operator = currentOperator;
+    displayOperator(operator);
+  }
+  inputArray = [];
+}
+
+function displayOperator(operator) {
+  operatorContent.textContent = operator;
+}
+
+//round answers with long decimals so that they don’t overflow the screen
+function displayResult(number) {
+  number = Math.round(number * 1000) / 1000;
+  operationContent.textContent = number;
+}
+
+// function setOperator(currentOperator) {
+//   if (currentOperator == "AC") {
+//
+//   } else if (currentOperator == "=") {
+//     result = operate(firstNumber, secondNumber, operator);
+//     displayResult(result);
+//     firstNumber = result;
+//   } else if (operators.includes(currentOperator)) {
+//     if (firstNumber === null) {
+//       firstNumber = parseFloat(inputArray.join(""));
+//       operator = currentOperator;
+//     } else {
+//       secondNumber = parseFloat(inputArray.join(""));
+//       console.log(secondNumber);
+//       result = operate(firstNumber, secondNumber, operator);
+//       displayResult(result);
+//       firstNumber = result;
+//       operator = currentOperator;
+
+//     inputArray = [];
+//   }
+// }
+// }
 
 let add = (num1, num2) => num1 + num2;
 let subtract = (num1, num2) => num1 - num2;
@@ -31,55 +137,6 @@ let operate = (num1, num2, operator) => {
   }
 };
 
-const numButtons = document.querySelectorAll(".number-container button");
-numButtons.forEach((button) =>
-  button.addEventListener("click", () => {
-    setNumber(button.innerText);
-  })
-);
-
-const operatorButtons = document.querySelectorAll(".operator-container button");
-operatorButtons.forEach((button) =>
-  button.addEventListener("click", () => {
-    setOperator(button.innerText);
-  })
-);
-
-function setNumber(currentNumber) {
-  inputArray.push(currentNumber);
-  displayContent.textContent = inputArray.join("");
-}
-
-function setOperator(currentOperator) {
-  if (currentOperator == "AC") {
-    firstNumber = null;
-    inputArray = [];
-    displayResult(0);
-  } else if (currentOperator == "=") {
-    result = operate(firstNumber, secondNumber, operator);
-    displayResult(result);
-    firstNumber = result;
-  } else if (operators.includes(currentOperator)) {
-    if (firstNumber === null) {
-      firstNumber = parseFloat(inputArray.join(""));
-      operator = currentOperator;
-    } else {
-      secondNumber = parseFloat(inputArray.join(""));
-      console.log(secondNumber);
-      result = operate(firstNumber, secondNumber, operator);
-      displayResult(result);
-      firstNumber = result;
-      operator = currentOperator;
-    
-    inputArray = [];
-  }
-}
-
-function displayResult(number){
-    displayContent.textContent = number.toFixed(4);
-}
-
-//You should round answers with long decimals so that they don’t overflow the screen.
 // handle multiple input of operator, number must follow by input, and input must follow by number > disable? > no, change the operator only if second pressed
 //disable the decimal button if there’s already one in the display)
 //backspace
