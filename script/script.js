@@ -15,7 +15,7 @@ const operatorContent = document.querySelector(".displayOperator");
 equalButton.addEventListener("click", evaluate);
 clearButton.addEventListener("click", clear);
 backspaceButton.addEventListener("click",removeLastDigit)
-decimalButton.addEventListener("click", addDecimal);
+decimalButton.addEventListener("click", () => setNumber(decimalButton.innerText));
 numButtons.forEach((button) =>
   button.addEventListener("click", () => setNumber(button.innerText))
 );
@@ -28,12 +28,9 @@ resetResult();
 function evaluate() {
   secondNumber = parseFloat(inputArray.join(""));
   result = operate(firstNumber, secondNumber, operator);
-  displayResult(result);
+  displayResult(roundNumber(result));
   resetOperator();
 }
-
-
-function addDecimal() {}
 
 function setNumber(currentNumber) {
   inputArray.push(currentNumber);
@@ -84,10 +81,13 @@ function displayOperator(operator) {
   operatorContent.textContent = operator;
 }
 
-//round answers with long decimals so that they don’t overflow the screen
 function displayResult(number) {
-  number = Math.round(number * 1000) / 1000;
   operationContent.textContent = number;
+}
+
+//round answers with long decimals so that they don’t overflow the screen
+function roundNumber(number){
+  return number = Math.round(number * 1000) / 1000;
 }
 
 // function setOperator(currentOperator) {
