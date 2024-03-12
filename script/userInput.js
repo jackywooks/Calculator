@@ -26,7 +26,6 @@ export function resetUserInput(){
 }
 
 export function getCurrentInput(){
-    console.log(currentInput);
     return currentInput;
 }
 
